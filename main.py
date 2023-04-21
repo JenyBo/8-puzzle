@@ -42,7 +42,7 @@ solve_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((1000, 350
 
 ### algorithmOptions DropDown
 dropdown_layout_rect = pygame.Rect((970, 295), (280, 35))
-algorithmOptions = ["A* (Manhatan Distance)","Best-First (Manhatan Distance)"]
+algorithmOptions = ["A* (Manhatan Distance)","Best-First (Manhatan Distance)", "DFS (Depth-first search)"]
 algorithmDropDown = pygame_gui.elements.UIDropDownMenu(options_list=algorithmOptions,
                                                        starting_option=algorithmOptions[1],
                                                        relative_rect=dropdown_layout_rect,
@@ -51,7 +51,7 @@ algorithmDropDown = pygame_gui.elements.UIDropDownMenu(options_list=algorithmOpt
 ### Search label
 pygame_gui.elements.ui_label.UILabel(parent_element=algorithmDropDown,
                                      manager=manager,
-                                     text="Heuristic Search:", # (pos-width,pos-height),(width,height)
+                                     text="Search by:", # (pos-width,pos-height),(width,height)
                                      relative_rect=pygame.Rect((800, 295), (170, 30)))
 
 ### Final state input
@@ -122,7 +122,7 @@ pygame.display.update()
 clock = pygame.time.Clock()
 puzzle = Puzzle.new(250, 220, 330, 330)
 puzzle.initialize()
-algorithm = "Best-First (Manhatan Distance)"
+algorithm = "A* (Manhatan Distance)"
 fstate="1,2,3,4,5,6,7,8,0"
 is_running = True
 
@@ -145,7 +145,7 @@ while is_running:
                 elif event.ui_element == info_button:
                     Info_msg = '<b>8-Puzzle Solver<br><br>Authors:</b><br>Mateus Mendonça Monteiro<br>Vinicius Santana Ramos'
                     # Information Box - Info
-                    info_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (180, 80)),
+                    info_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (260,200)),
                                                                                             manager = manager,
                                                                                             action_long_desc = Info_msg,
                                                                                             window_title ='Developers Info',
@@ -157,7 +157,7 @@ while is_running:
                         tempo = "{temp: .5f} seconds".format(temp = puzzle.lastSolveTime)
                         report_msg = '<b>Visited nodes:</b> '+str(puzzle.cost)+'        <b>Time:</b>'+tempo+ '        <b>Resolution:</b> '+str(len(moves))+' steps'
                         # Confirmation Box - Algorithm Report
-                        confirmation_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (180, 80)),
+                        confirmation_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (260,200)),
                                                                                                 manager = manager,
                                                                                                 action_long_desc = report_msg,
                                                                                                 window_title =algorithm.split(" ")[0] + ' Search Report',
@@ -169,13 +169,23 @@ while is_running:
                         tempo = "{temp: .5f} seconds".format(temp = puzzle.lastSolveTime)
                         report_msg = '<b>Visited nodes:</b> '+str(puzzle.cost)+'        <b>Time:</b>'+tempo+ '        <b>Resolution:</b> '+str(len(moves))+' steps'
                         # Confirmation Box - Algorithm Report
-                        confirmation_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (180, 80)),
+                        confirmation_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (260,200)),
                                                                                                 manager = manager,
                                                                                                 action_long_desc = report_msg,
                                                                                                 window_title =algorithm.split(" ")[0] + ' Search Report',
                                                                                                 )
                         solveAnimation(moves)
-                        
+                    elif algorithm == "DFS (Depth-first search)":
+                        moves = puzzle.dfs()
+                        tempo = "{temp: .5f} seconds".format(temp = puzzle.lastSolveTime)
+                        report_msg = '<b>Visited nodes:</b> '+str(puzzle.cost)+'        <b>Time:</b>'+tempo+ '        <b>Resolution:</b> '+str(len(moves))+' steps'
+                        # Confirmation Box - Algorithm Report
+                        confirmation_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (260,200)),
+                                                                                                manager = manager,
+                                                                                                action_long_desc = report_msg,
+                                                                                                window_title =algorithm.split(" ")[0] + ' Search Report',
+                                                                                                )
+                        solveAnimation(moves)
             elif event.user_type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 if event.ui_element == algorithmDropDown:
                     algorithm = event.text

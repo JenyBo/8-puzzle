@@ -65,7 +65,7 @@ class Puzzle:
         i=0
         for k in range(3):
             for j in range(3):
-                blocks.append({'rect':pygame.Rect(block_x, block_y, block_w, block_h),'color':colors.BABY_BLUE,'block':m[k][j]})
+                blocks.append({'rect':pygame.Rect(block_x, block_y, block_w, block_h),'color':colors.RED,'block':m[k][j]})
                 block_x += block_w+1 
                 i+=1
             block_y += block_h+1
@@ -85,7 +85,7 @@ class Puzzle:
             i=0
             for k in range(3):
                 for j in range(3):
-                    blocks.append({'rect':pygame.Rect(block_x, block_y, block_w, block_h),'color':colors.BABY_BLUE,'block':int(numbers[i])})
+                    blocks.append({'rect':pygame.Rect(block_x, block_y, block_w, block_h),'color':colors.RED,'block':int(numbers[i])})
                     block_x += block_w+1 #right
                     i+=1
                 block_y += block_h+1 #down
@@ -194,4 +194,43 @@ class Puzzle:
         print("Tempo gasto {temp: .5f}:".format(temp = fim-inicio))
         print("Nós visitados:",n,"\n")
         
+        return moves[::-1]
+    
+    def dfs(self):
+        #função de avaliação por busca em largura
+        inicio = time.time()
+        node = self.matrix
+        Mfinal = Matrix(3,3)
+        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,0
+        final = Mfinal.getMatrix()
+        queue = Queue()
+        queue.put(node)
+        visitedNodes = []
+        n = 1
+        while(not node.isEqual(final) and not queue.empty()):
+            node = queue.get()
+            visitedNodes.append(node)
+            moves = []
+            childNodes = node.getPossibleNodes(moves)
+            for i in range(len(childNodes)):
+                if not self.existsIn(childNodes[i].getMatrix(),visitedNodes):
+                    childNodes[i].move = moves[i]
+                    childNodes[i].manhattanDist()
+                    childNodes[i].setPrevious(node)
+                    queue._put(childNodes[i])
+            n += 1
+        moves = []
+        self.cost = n
+        if(node.isEqual(final)):
+            moves.append(node.move)
+            nd = node.previous
+            while nd != None:
+                if nd.move != '':
+                    moves.append(nd.move)
+                nd = nd.previous
+        fim = time.time()
+        self.lastSolveTime = fim-inicio
+        print("## DFS ##\n")
+        print("Tempo gasto {temp: .5f}:".format(temp = fim-inicio))
+        print("Tós visitados:",n,"\n")
         return moves[::-1]
