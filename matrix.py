@@ -14,8 +14,8 @@ class Matrix():
     
     def validNumbers(self, numbers):
         valid = False
-        if len(numbers) == 9:
-            ref = list(range(9))
+        if len(numbers) == 16:
+            ref = list(range(16))
             valid = True
             for i in numbers:
                 if int(i) not in ref:
@@ -28,14 +28,14 @@ class Matrix():
         numbers = str.split(",")
         if self.validNumbers(numbers):
             i=0
-            for k in range(3):
-                for j in range(3):
+            for k in range(4):
+                for j in range(4):
                     self.matrix[k][j] = int(numbers[i])
                     i += 1
 
     def searchBlock(self, value):
-        for k in range(3):
-            for j in range(3):
+        for k in range(4):
+            for j in range(4):
                 if self.matrix[k][j] == value:
                     return (k,j)
 
@@ -62,7 +62,7 @@ class Matrix():
             zero = self.searchBlock(0)
             self.movedown(zero)
             zero = self.searchBlock(0)
-        if zero[0] < 2:
+        if zero[0] < 3:
             self.movedown(zero)
             moves.append("down")
             possibleNodes.append(deepcopy(self))
@@ -76,7 +76,7 @@ class Matrix():
             zero = self.searchBlock(0)
             self.moveright(zero)
             zero = self.searchBlock(0)
-        if zero[1] < 2:
+        if zero[1] < 3:
             self.moveright(zero)
             moves.append("right")
             possibleNodes.append(deepcopy(self))
@@ -85,17 +85,17 @@ class Matrix():
             zero = self.searchBlock(0)
         return possibleNodes
 
-    def getXY(self, value, matFinal = [[1,2,3],[4,5,6],[7,8,0]]):
-        for x in range(3):
-            for y in range(3):
+    def getXY(self, value, matFinal = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,0]]):
+        for x in range(4):
+            for y in range(4):
                 if value == matFinal[x][y]:
                     return (x,y)
 
     
     def manhattanDist(self):
         res = 0
-        for i in range(3):
-            for j in range(3):
+        for i in range(4):
+            for j in range(4):
                 if self.matrix[i][j] != 0:
                     fi, fj = self.getXY(self.matrix[i][j])
                     res += abs(fi - i) + abs(fj - j)
@@ -104,8 +104,8 @@ class Matrix():
     
     def manhattanDistCost(self, Final):
         res = 0
-        for i in range(3):
-            for j in range(3):
+        for i in range(4):
+            for j in range(4):
                 if self.matrix[i][j] != 0:
                     fi, fj = self.getXY(self.matrix[i][j], Final.matrix)
                     res += abs(fi - i) + abs(fj - j)

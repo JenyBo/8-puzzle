@@ -20,7 +20,7 @@ manager = pygame_gui.UIManager(SCREEN_SIZE, 'theme.json')
 programIcon = pygame.image.load('logo.png')
 pygame.display.set_icon(programIcon)
 
-pygame_gui.core.IWindowInterface.set_display_title(self=window_surface,new_title="8-Puzzle")
+pygame_gui.core.IWindowInterface.set_display_title(self=window_surface,new_title="Puzzle")
 
 def display_elements():
     #Elements
@@ -44,7 +44,7 @@ solve_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((1000, 350
 dropdown_layout_rect = pygame.Rect((970, 295), (280, 35))
 algorithmOptions = ["A* (Manhatan Distance)","Best-First (Manhatan Distance)", "DFS (Depth-first search)"]
 algorithmDropDown = pygame_gui.elements.UIDropDownMenu(options_list=algorithmOptions,
-                                                       starting_option=algorithmOptions[1],
+                                                       starting_option=algorithmOptions[0],
                                                        relative_rect=dropdown_layout_rect,
                                                        manager=manager)
 
@@ -120,10 +120,10 @@ def solveAnimation(moves):
 window_surface.blit(background, (0, 0))
 pygame.display.update()
 clock = pygame.time.Clock()
-puzzle = Puzzle.new(250, 220, 330, 330)
+puzzle = Puzzle.new(150, 220, 330, 330)
 puzzle.initialize()
 algorithm = "A* (Manhatan Distance)"
-fstate="1,2,3,4,5,6,7,8,0"
+fstate="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0"
 is_running = True
 
 while is_running:

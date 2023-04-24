@@ -9,7 +9,7 @@ import time
 
 class Puzzle:
     
-    def __init__(self, x, y, width, height, lastSolveTime, move, cost, matrix,  blocks = [], final_state = "1,2,3,4,5,6,7,8,0"):
+    def __init__(self, x, y, width, height, lastSolveTime, move, cost, matrix,  blocks = [], final_state = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0"):
         self.x = x
         self.y = y
         self.width = width
@@ -23,12 +23,12 @@ class Puzzle:
 
     @staticmethod
     def new(x, y, width, height):
-        return Puzzle(x, y, width, height, 0, [], 0, Matrix(3,3), [])
+        return Puzzle(x, y, width, height, 0, [], 0, Matrix(4,4), [])
 
     def validNumbers(self, numbers):
         valid = False
-        if len(numbers) == 9:
-            ref = list(range(9))
+        if len(numbers) == 16:
+            ref = list(range(16))
             valid = True
             for i in numbers:
                 if int(i) not in ref:
@@ -63,8 +63,8 @@ class Puzzle:
 
         m = self.matrix.getMatrix()
         i=0
-        for k in range(3):
-            for j in range(3):
+        for k in range(4):
+            for j in range(4):
                 blocks.append({'rect':pygame.Rect(block_x, block_y, block_w, block_h),'color':colors.RED,'block':m[k][j]})
                 block_x += block_w+1 
                 i+=1
@@ -83,8 +83,8 @@ class Puzzle:
             block_h = self.height/3
             self.matrix.buildMatrix(string)
             i=0
-            for k in range(3):
-                for j in range(3):
+            for k in range(4):
+                for j in range(4):
                     blocks.append({'rect':pygame.Rect(block_x, block_y, block_w, block_h),'color':colors.RED,'block':int(numbers[i])})
                     block_x += block_w+1 #right
                     i+=1
@@ -113,8 +113,8 @@ class Puzzle:
         #função de avaliação por busca em largura
         inicio = time.time()
         node = self.matrix
-        Mfinal = Matrix(3,3)
-        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,0
+        Mfinal = Matrix(4,4)
+        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0
         final = Mfinal.getMatrix()
         queue = PriorityQueue()
         queue.put(node)
@@ -145,16 +145,16 @@ class Puzzle:
         fim = time.time()
         self.lastSolveTime = fim-inicio
         print("## Best-First ##\n")
-        print("Tempo gasto {temp: .5f}:".format(temp = fim-inicio))
-        print("Tós visitados:",n,"\n")
+        print("Time {temp: .5f}:".format(temp = fim-inicio))
+        print("Note Visited :",n,"\n")
         return moves[::-1]
     
     def a_star(self):
         # iniciando timer
         inicio = time.time()
         node = self.matrix
-        Mfinal = Matrix(3,3)
-        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,0
+        Mfinal = Matrix(4,4)
+        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0
         final = Mfinal.getMatrix()
         queue = PriorityQueue()
         queue.put(node)
@@ -191,8 +191,8 @@ class Puzzle:
         fim = time.time()
         self.lastSolveTime = fim-inicio
         print("## A* ##\n")
-        print("Tempo gasto {temp: .5f}:".format(temp = fim-inicio))
-        print("Nós visitados:",n,"\n")
+        print("Time {temp: .5f}:".format(temp = fim-inicio))
+        print("Node visited:",n,"\n")
         
         return moves[::-1]
     
@@ -200,8 +200,8 @@ class Puzzle:
         #função de avaliação por busca em largura
         inicio = time.time()
         node = self.matrix
-        Mfinal = Matrix(3,3)
-        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,0
+        Mfinal = Matrix(4,4)
+        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0
         final = Mfinal.getMatrix()
         queue = Queue()
         queue.put(node)
@@ -231,6 +231,6 @@ class Puzzle:
         fim = time.time()
         self.lastSolveTime = fim-inicio
         print("## DFS ##\n")
-        print("Tempo gasto {temp: .5f}:".format(temp = fim-inicio))
-        print("Tós visitados:",n,"\n")
+        print("Time {temp: .5f}:".format(temp = fim-inicio))
+        print("Note visited:",n,"\n")
         return moves[::-1]
