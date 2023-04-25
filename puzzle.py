@@ -196,41 +196,40 @@ class Puzzle:
         
         return moves[::-1]
     
-    def dfs(self):
-        #função de avaliação por busca em largura
-        inicio = time.time()
-        node = self.matrix
-        Mfinal = Matrix(4,4)
-        Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0
-        final = Mfinal.getMatrix()
-        queue = Queue()
-        queue.put(node)
-        visitedNodes = []
-        n = 1
-        while(not node.isEqual(final) and not queue.empty()):
-            node = queue.get()
-            visitedNodes.append(node)
-            moves = []
-            childNodes = node.getPossibleNodes(moves)
-            for i in range(len(childNodes)):
-                if not self.existsIn(childNodes[i].getMatrix(),visitedNodes):
-                    childNodes[i].move = moves[i]
-                    childNodes[i].manhattanDist()
-                    childNodes[i].setPrevious(node)
-                    queue._put(childNodes[i])
-            n += 1
-        moves = []
-        self.cost = n
-        if(node.isEqual(final)):
-            moves.append(node.move)
-            nd = node.previous
-            while nd != None:
-                if nd.move != '':
-                    moves.append(nd.move)
-                nd = nd.previous
-        fim = time.time()
-        self.lastSolveTime = fim-inicio
-        print("## DFS ##\n")
-        print("Time {temp: .5f}:".format(temp = fim-inicio))
-        print("Note visited:",n,"\n")
-        return moves[::-1]
+    # def dfs(self):
+    #     inicio = time.time()
+    #     node = self.matrix
+    #     Mfinal = Matrix(4,4)
+    #     Mfinal.buildMatrix(self.final_state) #1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0
+    #     final = Mfinal.getMatrix()
+    #     queue = Queue()
+    #     queue.put(node)
+    #     visitedNodes = []
+    #     n = 1
+    #     while(not node.isEqual(final) and not queue.empty()):
+    #         node = queue.get()
+    #         visitedNodes.append(node)
+    #         moves = []
+    #         childNodes = node.getPossibleNodes(moves)
+    #         for i in range(len(childNodes)):
+    #             if not self.existsIn(childNodes[i].getMatrix(),visitedNodes):
+    #                 childNodes[i].move = moves[i]
+    #                 childNodes[i].manhattanDist()
+    #                 childNodes[i].setPrevious(node)
+    #                 queue._put(childNodes[i])
+    #         n += 1
+    #     moves = []
+    #     self.cost = n
+    #     if(node.isEqual(final)):
+    #         moves.append(node.move)
+    #         nd = node.previous
+    #         while nd != None:
+    #             if nd.move != '':
+    #                 moves.append(nd.move)
+    #             nd = nd.previous
+    #     fim = time.time()
+    #     self.lastSolveTime = fim-inicio
+    #     print("## DFS ##\n")
+    #     print("Time {temp: .5f}:".format(temp = fim-inicio))
+    #     print("Note visited:",n,"\n")
+    #     return moves[::-1]

@@ -42,7 +42,7 @@ solve_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((1000, 350
 
 ### algorithmOptions DropDown
 dropdown_layout_rect = pygame.Rect((970, 295), (280, 35))
-algorithmOptions = ["A* (Manhatan Distance)","Best-First (Manhatan Distance)", "DFS (Depth-first search)"]
+algorithmOptions = ["A* (Manhatan Distance)","Best-First (Manhatan Distance)"]
 algorithmDropDown = pygame_gui.elements.UIDropDownMenu(options_list=algorithmOptions,
                                                        starting_option=algorithmOptions[0],
                                                        relative_rect=dropdown_layout_rect,
@@ -166,17 +166,6 @@ while is_running:
                         
                     elif algorithm == "A* (Manhatan Distance)":
                         moves = puzzle.a_star()
-                        tempo = "{temp: .5f} seconds".format(temp = puzzle.lastSolveTime)
-                        report_msg = '<b>Visited nodes:</b> '+str(puzzle.cost)+'        <b>Time:</b>'+tempo+ '        <b>Resolution:</b> '+str(len(moves))+' steps'
-                        # Confirmation Box - Algorithm Report
-                        confirmation_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (260,200)),
-                                                                                                manager = manager,
-                                                                                                action_long_desc = report_msg,
-                                                                                                window_title =algorithm.split(" ")[0] + ' Search Report',
-                                                                                                )
-                        solveAnimation(moves)
-                    elif algorithm == "DFS (Depth-first search)":
-                        moves = puzzle.dfs()
                         tempo = "{temp: .5f} seconds".format(temp = puzzle.lastSolveTime)
                         report_msg = '<b>Visited nodes:</b> '+str(puzzle.cost)+'        <b>Time:</b>'+tempo+ '        <b>Resolution:</b> '+str(len(moves))+' steps'
                         # Confirmation Box - Algorithm Report
