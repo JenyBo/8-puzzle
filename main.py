@@ -54,21 +54,6 @@ pygame_gui.elements.ui_label.UILabel(parent_element=algorithmDropDown,
                                      text="Search by:", # (pos-width,pos-height),(width,height)
                                      relative_rect=pygame.Rect((800, 295), (170, 30)))
 
-### Final state input
-# report_rect = pygame.Rect((1000, 210), (250, 30))
-# Final_state = pygame_gui.elements.UITextEntryLine(relative_rect=report_rect,
-#                                                   manager=manager)
-
-### Final state label
-# pygame_gui.elements.ui_label.UILabel(parent_element=Final_state,
-#                                      manager=manager,
-#                                      text="Final State:", # (pos-width,pos-height),(width,height)
-#                                      relative_rect=pygame.Rect((855, 210), (140, 30)))
-
-### set final state with button
-# set_final_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((1000, 250), (250, 30)),
-#                                                 text='Set Final State',
-#                                                 manager=manager)
 ### shuffle button
 button_layout_rect = pygame.Rect((300, 150), (200, 40))
 shuffle_button = pygame_gui.elements.UIButton(relative_rect=button_layout_rect,
@@ -136,14 +121,8 @@ while is_running:
             if event.user_type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == shuffle_button:
                     puzzle.randomBlocks()
-                # elif event.ui_element == set_final_button:
-                #     if not puzzle.setBlocks(Final_state.get_text()):
-                #         alert_label.set_text("Final state invalid!")
-                #     else:
-                #         alert_label.set_text("Final state valid!")
-                #         puzzle.final_state = Final_state.get_text()
                 elif event.ui_element == info_button:
-                    Info_msg = '<b>8-Puzzle Solver<br><br>Authors:</b><br>Mateus Mendonça Monteiro<br>Vinicius Santana Ramos'
+                    Info_msg = '<b>8-Puzzle Solver<br>Authors: Truong<br></b>'
                     # Information Box - Info
                     info_win = pygame_gui.windows.ui_confirmation_dialog.UIConfirmationDialog(rect = pygame.Rect((600, 300), (260,200)),
                                                                                             manager = manager,
@@ -178,8 +157,6 @@ while is_running:
             elif event.user_type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 if event.ui_element == algorithmDropDown:
                     algorithm = event.text
-            # elif event.user_type == pygame_gui.UI_TEXT_ENTRY_CHANGED and event.ui_element == Final_state:
-            #     print("")
         manager.process_events(event)
         
         
